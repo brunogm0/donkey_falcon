@@ -670,6 +670,7 @@ static ssize_t store_powersave_bias(struct kobject *a, struct attribute *b,
 			}
 		}
 	}
+	put_online_cpus();
 
 skip_this_cpu_bypass:
 	mutex_unlock(&dbs_mutex);
