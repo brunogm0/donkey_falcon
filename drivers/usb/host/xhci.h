@@ -1532,6 +1532,7 @@ struct xhci_hcd {
  */
 #define XHCI_RESET_DELAY	(1 << 17)
 #define XHCI_SLOW_SUSPEND	(1 << 18)
+#define XHCI_SPURIOUS_WAKEUP	(1 << 19)
 	unsigned int		num_active_eps;
 	unsigned int		limit_active_eps;
 	/* There are two roothubs to keep track of bus suspend info for */
