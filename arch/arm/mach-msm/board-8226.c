@@ -185,9 +185,8 @@ void __init msm8226_add_drivers(void)
 	else
 		msm_clock_init(&msm8226_clock_init_data);
 	tsens_tm_init_driver();
+#ifndef CONFIG_INTELLI_THERMAL
 	msm_thermal_device_init();
-#ifdef CONFIG_LCD_KCAL
-	add_lcd_kcal_devices();
 #endif
 }
 
