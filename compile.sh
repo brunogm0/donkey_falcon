@@ -1,5 +1,5 @@
 #!/bin/bash
-TOOLCHAIN="/home/nando/dev/toolchains/linaro492a7/bin"
+TOOLCHAIN="/home/nando/dev/toolchains/linaro492/bin"
 CLEAN=$1
 DEFCONF=$2
 JOBS=$3
