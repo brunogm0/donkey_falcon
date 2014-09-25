@@ -17,6 +17,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Updated by Carlos "Klozz" Jesús (AKA TEAMMEX@XDA-Developers)
+ * 
  */
 
 #include <linux/kernel.h>
@@ -44,9 +47,9 @@
 #endif
 
 /* Version, author, desc, etc */
-#define DRIVER_AUTHOR "Dennis Rassmann <showp1984@gmail.com>"
+#define DRIVER_AUTHOR "Dennis Rassmann <showp1984@gmail.com> && Updated by Carlos "klozz" Jesus <xxx.reptar.rawrr.xxx@gmail.com>"
 #define DRIVER_DESCRIPTION "Doubletap2wake for almost any device"
-#define DRIVER_VERSION "1.0"
+#define DRIVER_VERSION "1.2"
 #define LOGTAG "[doubletap2wake]: "
 
 MODULE_AUTHOR(DRIVER_AUTHOR);
@@ -58,9 +61,9 @@ MODULE_LICENSE("GPLv2");
 #define DT2W_DEBUG		0
 #define DT2W_DEFAULT		1
 
-#define DT2W_PWRKEY_DUR		10
+#define DT2W_PWRKEY_DUR		20
 #define DT2W_FEATHER		200
-#define DT2W_TIME		700
+#define DT2W_TIME		600
 
 /* Resources */
 int dt2w_switch = DT2W_DEFAULT;
