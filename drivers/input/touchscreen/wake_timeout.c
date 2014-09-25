@@ -41,6 +41,7 @@ struct notifier_block wfnotif;
 static unsigned int wake_timeout = 60;
 static struct alarm wakefunc_rtc;
 static bool wakefunc_triggered = false;
+bool pwrkey_pressed = false;
 
 
 static void wake_presspwr(struct work_struct * wake_presspwr_work) {
@@ -246,7 +247,7 @@ static void __exit wake_timeout_exit(void)
 }
 
 MODULE_AUTHOR("flar2 <asegaert@gmail.com>");
-MODULE_AUTHOR("Carlos "Klozz" Jesús <xxx.reptar.rawrr.xxx@Gmail.com>);
+MODULE_AUTHOR("Carlos "Klozz" Jesús <xxx.reptar.rawrr.xxx@Gmail.com>");
 MODULE_DESCRIPTION("'wake_timeout' - Disable screen wake functions after timeout");
 MODULE_LICENSE("GPL v2");
 
