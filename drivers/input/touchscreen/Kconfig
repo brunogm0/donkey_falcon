@@ -1135,6 +1135,12 @@ config TOUCHSCREEN_PREVENT_SLEEP
         help
           This disables the sleep function of modified touchscreen drivers.
 
+config WAKE_TIMEOUT
+	tristate "Disable screen wake functions after timeout"
+ 	default y
+ 	help
+ 	Disable screen wake functions after timeout
+
 source "drivers/input/touchscreen/gt9xx/Kconfig"
 
 endif
