@@ -30,10 +30,14 @@
 #include <mach/mmi_panel_notifier.h>
 
 #include "mdss_dsi.h"
+#ifdef CONFIG_PWRKEY_SUSPEND
+#include <linux/qpnp/power-on.h>
+#endif
 #include "dsi_v2.h"
 
 #ifdef CONFIG_POWERSUSPEND
 #include <linux/powersuspend.h>
+#include <linux/input/prevent_sleep.h>
 #endif
 
 #define DT_CMD_HDR 6
@@ -190,6 +194,10 @@ void mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 	struct mdss_panel_info *pinfo = NULL;
 	int i;
 
+#ifdef CONFIG_PWRKEY_SUSPEND
+	if (pwrkey_pressed)
+	 prevent_sleep = false;
+#endif
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return;
@@ -639,6 +647,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		dropbox_queue_event_empty("display_issue");
 	}
 
+#ifdef CONFIG_PWRKEY_SUSPEND
+pwrkey_pressed = false;	
+#endif
+
 #ifndef CONFIG_FB_MSM_MDSS_MDP3
 	if (pdata->panel_info.hs_cmds_post_init)
 		mdss_set_tx_power_mode(DSI_MODE_BIT_HS, pdata);
@@ -673,6 +685,11 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	mipi  = &pdata->panel_info.mipi;
 	mmi_panel_notify(MMI_PANEL_EVENT_PRE_DISPLAY_OFF, NULL);
+	
+#ifdef CONFIG_PWRKEY_SUSPEND
+if (pwrkey_pressed)
+prevent_sleep = false;
+#endif
 
 	if (ctrl->panel_config.bare_board == true)
 		goto disable_regs;
