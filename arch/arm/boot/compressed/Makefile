@@ -30,10 +30,18 @@ HEAD = head.o
 AFLAGS_misc.o +=-Wa,-mcpu=cortex-a7
 MISC = misc.o
 
-AFLAGS_decompress.o += -Wa,-march=armv7-a$(plus_sec)
+AFLAGS_decompress.o += -Wa,-mcpu=cortex-a7
 DECOMPRESS = decompress.o
+
 OBJS	+= misc.o decompress.o
 ifeq ($(CONFIG_KERNEL_LZ4),y)
+CFLAGS_decompress.o := -Os
+endif
+
+ifeq ($(CONFIG_KERNEL_LZ4),y)
+CFLAGS_decompress.o := -Os
+endif
+ifeq ($(CONFIG_KERNEL_LZO),y)
 CFLAGS_decompress.o := -Os
 endif
 
@@ -132,9 +140,14 @@ targets       := vmlinux vmlinux.lds \
 		 font.o font.c head.o misc.o decompress.o $(OBJS)
 
 # Make sure files are removed during clean
+<<<<<<< HEAD
 extra-y       += piggy.gzip piggy.lzo piggy.lzma piggy.xzkern piggy.lz4 \
 		 lib1funcs.S ashldi3.S $(libfdt) $(libfdt_hdrs) \
 		 hyp-stub.S
+=======
+extra-y       += piggy.gzip piggy.lzo piggy.lz4 piggy.lzma piggy.xzkern \
+		 lib1funcs.S ashldi3.S $(libfdt) $(libfdt_hdrs)
+>>>>>>> 38cb86c... add compress mode for cortex-A7
 
 ifeq ($(CONFIG_FUNCTION_TRACER),y)
 ORIG_CFLAGS := $(KBUILD_CFLAGS)
@@ -206,7 +219,11 @@ $(obj)/vmlinux: $(obj)/vmlinux.lds $(obj)/$(HEAD) $(obj)/$(MISC) $(obj)/$(DECOMP
 $(obj)/piggy.$(suffix_y): $(obj)/../Image FORCE
 	$(call if_changed,$(suffix_y))
 
+<<<<<<< HEAD
 AFLAGS_lib1funcs.o +=-Wa,-mcpu=cortex-a7
+=======
+AFLAGS_piggy.$(suffix_y).o += -Wa,-mcpu=cortex-a7
+>>>>>>> 38cb86c... add compress mode for cortex-A7
 $(obj)/piggy.$(suffix_y).o:  $(obj)/piggy.$(suffix_y) FORCE
 
 CFLAGS_font.o := -Dstatic=
