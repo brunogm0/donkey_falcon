@@ -29,8 +29,16 @@ HEAD = head.o
 AFLAGS_misc.o +=-Wa,-mcpu=cortex-a7
 MISC = misc.o
 
-AFLAGS_decompress.o += -Wa,-march=armv7-a$(plus_sec)
+AFLAGS_decompress.o += -Wa,-mcpu=cortex-a7
 DECOMPRESS = decompress.o
+OBJS	+= misc.o decompress.o
+ifeq ($(CONFIG_KERNEL_LZ4),y)
+CFLAGS_decompress.o := -Os
+endif
+ifeq ($(CONFIG_KERNEL_LZO),y)
+CFLAGS_decompress.o := -Os
+endif
+
 ifeq ($(CONFIG_KERNEL_LZ4),y)
 CFLAGS_decompress.o := -Os
 endif
@@ -205,7 +213,7 @@ $(obj)/vmlinux: $(obj)/vmlinux.lds $(obj)/$(HEAD) $(obj)/$(MISC) $(obj)/$(DECOMP
 $(obj)/piggy.$(suffix_y): $(obj)/../Image FORCE
 	$(call if_changed,$(suffix_y))
 
-AFLAGS_lib1funcs.o +=-Wa,-mcpu=cortex-a7
+AFLAGS_piggy.$(suffix_y).o += -Wa,-mcpu=cortex-a7
 $(obj)/piggy.$(suffix_y).o:  $(obj)/piggy.$(suffix_y) FORCE
 
 CFLAGS_font.o := -Dstatic=
