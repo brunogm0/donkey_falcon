@@ -121,18 +121,6 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
 	help
 	  Use the CPUFreq governor 'intellidemand' as default.
 
-config CPU_FREQ_DEFAULT_GOV_SMARTASSFALCON
-	bool "smartassfalcon"
-	select CPU_FREQ_GOV_SMARTASSFALCON
-	help
-	  Use the CPUFreq governor 'smartassfalcon' as default.
-
-config CPU_FREQ_DEFAULT_GOV_ONDEMANDPLUS
-	bool "ondemandplus"
-	select CPU_FREQ_GOV_ONDEMANDPLUS
-	help
-	  Use the CPUFreq governor 'ondemandplus' as default.
-
 config CPU_FREQ_DEFAULT_GOV_WEATHLEY
 	bool "weathley"
 	select CPU_FREQ_GOV_WEATHLEY
@@ -249,22 +237,6 @@ config CPU_FREQ_GOV_INTELLIDEMAND
 	depends on CPU_FREQ
 	help
 	  Intellidemand CPU governor.
-
-	  If in doubt, say N.
-
-config CPU_FREQ_GOV_SMARTASSFALCON
-	tristate "'smartassfalcon' cpufreq governor"
-	depends on CPU_FREQ
-	help
-	  SmartAssFalcon CPU governor.
-
-	  If in doubt, say N.
-
-config CPU_FREQ_GOV_ONDEMANDPLUS
-	tristate "'ondemandplus' cpufreq governor"
-	depends on CPU_FREQ
-	help
-	  Intelliactive CPU governor.
 
 	  If in doubt, say N.
 
