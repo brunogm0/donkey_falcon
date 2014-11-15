@@ -363,7 +363,8 @@ on boot
     chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1094000:80 1190000:95"
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "30000 1094000:40000 1190000:20000"
-
+	write /sys/devices/system/cpu/cpufreq/interactive/timer_rate "30000 1094000:20000 1190000:10000"
+	write /sys/devices/system/cpu/cpufreq/interactive/timer_slack "50000 1094000:30000"
 
 
     # Assume SMP uses shared cpufreq policy for all CPUs
