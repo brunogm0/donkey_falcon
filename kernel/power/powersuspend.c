@@ -209,50 +209,6 @@ static void __exit power_suspend_exit(void)
 	destroy_workqueue(suspend_work_queue);
 } 
 
-// ------------------ sysfs interface -----------------------
-static int __init power_suspend_init(void)
-{
-
-	int sysfs_result;
-
-        power_suspend_kobj = kobject_create_and_add("power_suspend",
-				kernel_kobj);
-        if (!power_suspend_kobj) {
-                pr_err("%s kobject create failed!\n", __FUNCTION__);
-                return -ENOMEM;
-        }
-
-        sysfs_result = sysfs_create_group(power_suspend_kobj,
-			&power_suspend_attr_group);
-
-        if (sysfs_result) {
-                pr_info("%s group create failed!\n", __FUNCTION__);
-                kobject_put(power_suspend_kobj);
-                return -ENOMEM;
-        }
-
-	suspend_work_queue = create_singlethread_workqueue("p-suspend");
-
-	if (suspend_work_queue == NULL) {
-		return -ENOMEM;
-	}
-
-	mode = POWER_SUSPEND_USERSPACE;
-
-	return 0;
-}
-
-static void __exit power_suspend_exit(void)
-{
-	if (power_suspend_kobj != NULL)
-		kobject_put(power_suspend_kobj);
-
-	destroy_workqueue(suspend_work_queue);
-} 
-
-
-
-
 core_initcall(power_suspend_init);
 module_exit(power_suspend_exit);
 

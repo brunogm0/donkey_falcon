@@ -73,7 +73,7 @@ static struct cpu_hotplug {
 	.min_cpus_online = DEFAULT_MIN_CPUS_ONLINE,
 	.max_cpus_online = DEFAULT_MAX_CPUS_ONLINE,
 	.suspend_max_cpus = DEFAULT_SUSP_MAX_CPUS,
-	.suspend_max_freq = DEFAULT_SUSP_MAX_FREQ
+	.suspend_max_freq = DEFAULT_SUSP_MAX_FREQ,
 	.cpus_boosted = DEFAULT_NR_CPUS_BOOSTED,
 	.down_lock_dur = DEFAULT_DOWN_LOCK_DUR,
 	.boost_lock_dur = DEFAULT_BOOST_LOCK_DUR,
