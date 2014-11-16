@@ -960,7 +960,11 @@ on property:sys.boot_completed=1
     chmod 0664 /sys/devices/system/cpu/cpu1/online
     chmod 0664 /sys/devices/system/cpu/cpu2/online
     chmod 0664 /sys/devices/system/cpu/cpu3/online
+    
 #    start mpdecision
+
+# Import Donkey extras
+    import /init.donkey.rc
 
 # Powersave
 on property:sys.perf.profile=0
