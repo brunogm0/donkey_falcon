@@ -35,7 +35,7 @@
 #define DEFAULT_SECOND_LEVEL	60
 #define HIGH_LOAD_COUNTER	25
 #define SAMPLING_RATE		4
-#define DEFAULT_MIN_ONLINE	2
+#define DEFAULT_MIN_ONLINE	1
 #define SMART_LOAD_CALC
 
 struct hotplug_data {
