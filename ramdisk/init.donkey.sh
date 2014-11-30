@@ -20,6 +20,13 @@ if /sbin/bbx [ -e /system/lib/hw/power.msm8226.so ]; then
   /sbin/bbx [ -e /system/lib/hw/power.msm8226.so ] && /sbin/bbx rm -f /system/lib/hw/power.msm8226.so;
 fi;
 
+# Enable powersuspend
+if [ -e /sys/kernel/power_suspend/power_suspend_mode ]; then
+	echo "1" > /sys/kernel/power_suspend/power_suspend_mode
+	echo "Powersuspend enabled" | tee /dev/kmsg
+else
+	echo "Failed to set powersuspend" | tee /dev/kmsg
+
 # Enable init.d with permissions;
 if /sbin/bbx [ ! -e /system/etc/init.d ]; then
   /sbin/bbx mkdir /system/etc/init.d;
@@ -27,3 +34,13 @@ if /sbin/bbx [ ! -e /system/etc/init.d ]; then
   /sbin/bbx chmod -R 755 /system/etc/init.d;
 fi;
 /sbin/bbx mount -o ro,remount /system;
+
+# Setting DEFAULTS
+write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 192000
