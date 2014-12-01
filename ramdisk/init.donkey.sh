@@ -36,14 +36,14 @@ fi;
 /sbin/bbx mount -o ro,remount /system;
 
 # Setting DEFAULTS
-echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 
-echo "ondemand" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
-echo "ondemand" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
-echo "ondemand" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-echo "192000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-echo "192000" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-echo "192000" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-echo "192000" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
-echo "55" > /sys/kernel/hotplug_control/all_cpus_threshold
-echo "6" > /sys/kernel/hotplug_control/hotplug_sampling
+write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "ondemand"
+write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 192000
+write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 192000
+write /sys/kernel/hotplug_control/all_cpus_threshold 55
+write /sys/kernel/hotplug_control/hotplug_sampling 6
 
