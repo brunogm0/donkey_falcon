@@ -46,4 +46,9 @@ write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 192000
 write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 192000
 write /sys/kernel/hotplug_control/all_cpus_threshold 55
 write /sys/kernel/hotplug_control/hotplug_sampling 6
-
+write /sys/kernel/hotplug_control/single_cpu_threshold 70
+write /sys/kernel/hotplug_control/up_frequency 1094400
+write /sys/module/cpu_boost/boost_ms 10
+write /sys/module/cpu_boost/input_boost_freq 1094400
+write /sys/module/cpu_boost/input_boost_ms 20
+write /sys/module/cpu_boost/sync_threshold 998400
