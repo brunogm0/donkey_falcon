@@ -116,6 +116,12 @@ config CPU_FREQ_DEFAULT_GOV_SMARTASSFALCON
          Use the CPUFreq governor 'smartassfalcon' as default. This allows
 	 the cpu to scale similar to ondemand/interactive. This is more
 	 battery saving while keeping the smoothness.
+	 
+config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
+        bool "intelliactive"
+        select CPU_FREQ_GOV_INTELLIACTIVE
+        help
+         Intelliactive gov.
 
 endchoice
 
@@ -218,7 +224,13 @@ config CPU_FREQ_GOV_SMARTASSFALCON
         tristate "'smartassfalcon' cpufreq governor"
         depends on CPU_FREQ
         help
-                    'smartassfalcon' - a "smart" governor for falcon
+        'smartassfalcon' - a "smart" governor for falcon
+
+config CPU_FREQ_GOV_INTELLIACTIVE
+        tristate "'intelliactive' cpufreq governor"
+        depends on CPU_FREQ
+        help
+        'intelliactive' - fauxgovernor for falcon
 
 menu "x86 CPU frequency scaling drivers"
 depends on X86
