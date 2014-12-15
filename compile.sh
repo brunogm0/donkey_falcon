@@ -1,5 +1,5 @@
 #!/bin/bash
-TOOLCHAIN="/home/nando/dev/toolchains/gcc48/bin"
+TOOLCHAIN="/home/nando/dev/toolchains/linaro493/bin"
 CLEAN=$1
 DEFCONF=$2
 JOBS=$3
