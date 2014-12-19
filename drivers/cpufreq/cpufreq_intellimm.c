@@ -580,20 +580,18 @@ static ssize_t store_powersave_bias(struct kobject *a, struct attribute *b,
 		if (reenable_timer) {
 
 			for_each_online_cpu(cpu) {
-				if (lock_policy_rwsem_write(cpu) < 0)
-					continue;
 
 				dbs_info = &per_cpu(imm_cpu_dbs_info, cpu);
 
 				if (!dbs_info->cur_policy) {
 					pr_err("Dbs policy is NULL\n");
-					goto skip_this_cpu;
+					goto skip_this_cpu_bypass;
 				}
 
 				for_each_cpu(j, &cpus_timer_done) {
 					if (cpumask_test_cpu(j, dbs_info->
 							cur_policy->cpus))
-						goto skip_this_cpu;
+					goto skip_this_cpu_bypass;
 				}
 
 				cpumask_set_cpu(cpu, &cpus_timer_done);
@@ -603,15 +601,11 @@ static ssize_t store_powersave_bias(struct kobject *a, struct attribute *b,
 					mutex_lock(&dbs_info->timer_mutex);
 					dbs_timer_init(dbs_info);
 				}
-skip_this_cpu:
-				unlock_policy_rwsem_write(cpu);
 			}
 		}
 		intellimm_powersave_bias_init();
 	} else {
 		for_each_online_cpu(cpu) {
-			if (lock_policy_rwsem_write(cpu) < 0)
-				continue;
 
 			dbs_info = &per_cpu(imm_cpu_dbs_info, cpu);
 
@@ -640,11 +634,9 @@ skip_this_cpu:
 				mutex_unlock(&dbs_info->timer_mutex);
 
 			}
-skip_this_cpu_bypass:
-			unlock_policy_rwsem_write(cpu);
 		}
 	}
-
+skip_this_cpu_bypass:
 	mutex_unlock(&dbs_mutex);
 	put_online_cpus();
 
@@ -1525,14 +1517,11 @@ static int cpufreq_gov_dbs_up_task(void *data)
 
 		get_online_cpus();
 
-		if (lock_policy_rwsem_write(cpu) < 0)
-			goto bail_acq_sema_failed;
-
 		this_dbs_info = &per_cpu(imm_cpu_dbs_info, cpu);
 		policy = this_dbs_info->cur_policy;
 		if (!policy) {
 
-			goto bail_incorrect_governor;
+			goto bail_acq_sema_failed;
 		}
 
 		mutex_lock(&this_dbs_info->timer_mutex);
@@ -1545,9 +1534,6 @@ static int cpufreq_gov_dbs_up_task(void *data)
 						dbs_tuners_ins.io_is_busy);
 
 		mutex_unlock(&this_dbs_info->timer_mutex);
-
-bail_incorrect_governor:
-		unlock_policy_rwsem_write(cpu);
 
 bail_acq_sema_failed:
 		put_online_cpus();
