@@ -188,7 +188,7 @@ void __init msm8226_add_drivers(void)
 #ifdef CONFIG_INTELLI_THERMAL
 	msm_thermal_init(NULL);
 #else
-	msm_thermal_device_init(NULL);
+	msm_thermal_device_init();
 #endif
 }
 
