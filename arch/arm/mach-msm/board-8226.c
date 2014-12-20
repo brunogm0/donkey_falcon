@@ -190,6 +190,9 @@ void __init msm8226_add_drivers(void)
 #else
 	msm_thermal_device_init();
 #endif
+#ifdef CONFIG_LCD_KCAL
+	add_lcd_kcal_devices();
+#endif
 }
 
 void __init msm8226_init(void)
