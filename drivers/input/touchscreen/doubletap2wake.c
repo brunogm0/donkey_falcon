@@ -19,6 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Updated by Carlos "Klozz" Jesús (AKA TEAMMEX@XDA-Developers)
+ * Modified and updated by fermasia.
  * 
  */
 
@@ -59,7 +60,7 @@ MODULE_LICENSE("GPLv2");
 
 /* Tuneables */
 #define DT2W_DEBUG		0
-#define DT2W_DEFAULT		1
+#define DT2W_DEFAULT		0
 
 #define DT2W_PWRKEY_DUR		20
 #define DT2W_FEATHER		200
