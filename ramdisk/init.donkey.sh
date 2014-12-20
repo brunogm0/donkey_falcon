@@ -7,6 +7,25 @@
 # Checks for power hal and makes a backup
 #
 
+# Setting DEFAULTS
+echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
+echo "192000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 
+echo "192000" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
+echo "192000" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
+echo "192000" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
+echo "58" > /sys/kernel/hotplug_control/all_cpus_threshold
+echo "10" > /sys/kernel/hotplug_control/hotplug_sampling
+echo "78" > /sys/kernel/hotplug_control/single_cpu_threshold
+echo "1" > /sys/kernel/hotplug_control/low_latency
+echo "1094400" > /sys/kernel/hotplug_control/up_frequency
+echo "Y" > /sys/module/msm_thermal_v2/parameters/enabled
+echo "65" > /sys/module/msm_thermal_v2/parameters/core_limit_temp_degC
+echo "70" > /sys/module/msm_thermal_v2/parameters/limit_temp_degC
+echo "12" > /sys/module/msm_thermal_v2/parameters/core_control_mask
+
 # Interactive tunables;
 echo 30000 1094000:40000 1190000:20000 > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
 echo 85 1094000:80 1190000:95 > /sys/devices/system/cpu/cpufreq/interactive/target_loads
@@ -34,21 +53,3 @@ if /sbin/bbx [ ! -e /system/etc/init.d ]; then
   /sbin/bbx chmod -R 755 /system/etc/init.d;
 fi;
 /sbin/bbx mount -o ro,remount /system;
-
-# Setting DEFAULTS
-write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
-write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 192000
-write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 192000
-write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 192000
-write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 192000
-write /sys/kernel/hotplug_control/all_cpus_threshold 60
-write /sys/kernel/hotplug_control/hotplug_sampling 10
-write /sys/kernel/hotplug_control/single_cpu_threshold 80
-write /sys/kernel/hotplug_control/up_frequency 1094400
-write /sys/module/cpu_boost/boost_ms 15
-write /sys/module/cpu_boost/input_boost_freq 1094400
-write /sys/module/cpu_boost/input_boost_ms 15
-write /sys/module/cpu_boost/sync_threshold 998400
