@@ -531,15 +531,13 @@ exit:
 static void cpufreq_interactive_idle_start(void)
 {
 	struct cpufreq_interactive_cpuinfo *pcpu =
-
-		&per_cpu(cpuinfo, smp_processor_id());	int pending;
+		&per_cpu(cpuinfo, smp_processor_id());
+	int pending;
 	u64 now;
 
 	if (!down_read_trylock(&pcpu->enable_sem))
 		return;
-
-	if (!pcpu->governor_enabled){
-
+	if (!pcpu->governor_enabled) {
 		up_read(&pcpu->enable_sem);
 		return;
 	}
