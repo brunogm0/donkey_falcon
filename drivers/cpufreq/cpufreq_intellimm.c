@@ -29,10 +29,10 @@
 #include <linux/workqueue.h>
 #include <linux/slab.h>
 
-#define DEF_SAMPLING_RATE			(50000)
+#define DEF_SAMPLING_RATE			(30000)
 #define DEF_FREQUENCY_DOWN_DIFFERENTIAL		(10)
 #define DEF_FREQUENCY_UP_THRESHOLD		(60)
-#define DEF_FREQUENCY_UP_THRESHOLD_MULTY	(70)
+#define DEF_FREQUENCY_UP_THRESHOLD_MULTY	(75)
 #define DEF_FREQUENCY_UP_THRESHOLD_ANY_CPU	(70)
 #define DEF_SAMPLING_DOWN_FACTOR		(1)
 #define MAX_SAMPLING_DOWN_FACTOR		(100000)
@@ -42,23 +42,15 @@
 #define MAX_FREQUENCY_UP_THRESHOLD		(100)
 #define MIN_FREQUENCY_DOWN_DIFFERENTIAL		(1)
 
-#ifdef CONFIG_ARCH_MSM8974
 #define DEF_POWER_SAVE_FREQUENCY		(600000)
 #define DEF_TWO_PHASE_FREQUENCY			(1094400)
 #define DBS_INPUT_EVENT_MIN_FREQ		(787200)
-#define DEF_FREQUENCY_OPTIMAL			(787200)
+#define DEF_FREQUENCY_OPTIMAL			(600000)
 #define DEF_FREQ_DOWN_STEP			(250000)
-#define DEF_FREQ_DOWN_STEP_BARRIER		(787200)
-#else
-#define DEF_POWER_SAVE_FREQUENCY		(600000)
-#define DEF_TWO_PHASE_FREQUENCY			(1094400)
-#define DBS_INPUT_EVENT_MIN_FREQ		(787200)
-#define DEF_FREQUENCY_OPTIMAL			(787200)
-#define DEF_FREQ_DOWN_STEP			(250000)
-#define DEF_FREQ_DOWN_STEP_BARRIER		(787200)
-#endif
+#define DEF_FREQ_DOWN_STEP_BARRIER		(600000)
 
-#define DEF_INPUT_BOOST_DURATION		(4)
+
+#define DEF_INPUT_BOOST_DURATION		(3)
 #define CPU0					(0)
 
 #define MIN_SAMPLING_RATE_RATIO			(2)
@@ -125,14 +117,14 @@ static unsigned long input_event_boost_expired = 0;
 
 #define MAX(x,y)			(x > y ? x : y)
 #define MIN(x,y)			(x < y ? x : y)
-#define FREQ_NEED_BURST(x)		(x < 600000 ? 1 : 0)
+#define FREQ_NEED_BURST(x)		(x < 384000 ? 1 : 0)
 
 static struct cpufreq_frequency_table *tbl = NULL;
 static unsigned int *tblmap[TABLE_SIZE] __read_mostly;
 static unsigned int tbl_select[4] = {0};
 static int input_event_counter = 0;
 
-static unsigned int up_threshold_level[2] __read_mostly = {90, 80};
+static unsigned int up_threshold_level[2] __read_mostly = {85, 75};
 static void reset_freq_map_table(struct cpufreq_policy *);
 
 static DEFINE_MUTEX(dbs_mutex);
@@ -165,7 +157,7 @@ static struct dbs_tuners {
 	.up_threshold_any_cpu_load = DEF_FREQUENCY_UP_THRESHOLD_ANY_CPU,
 	.ignore_nice = 0,
 	.powersave_bias = 0,
-	.optimal_freq_speed = 1728000,
+	.optimal_freq_speed = 787200,
 	.shortcut = 0,
 	.io_is_busy = 0,
 	.power_save_freq = DEF_POWER_SAVE_FREQUENCY,
