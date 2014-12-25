@@ -326,7 +326,6 @@ static void cpufreq_interactive_timer(unsigned long data)
 	unsigned long mod_min_sample_time;
 	int i, max_load;
 	unsigned int max_freq;
-	unsigned int boosted_freq;
 	struct cpufreq_interactive_cpuinfo *picpu;
 
 	if (!down_read_trylock(&pcpu->enable_sem))
@@ -349,27 +348,23 @@ static void cpufreq_interactive_timer(unsigned long data)
 	cpu_load = loadadjfreq / pcpu->target_freq;
 	pcpu->prev_load = cpu_load;
 	boosted = now < (last_input_time + boostpulse_duration_val);
-	boosted_freq = max(hispeed_freq, pcpu->policy->min);
 
-	cpufreq_notify_utilization(pcpu->policy, cpu_load);
+	if (cpu_load >= go_hispeed_load)
+	{
+		if (pcpu->target_freq < hispeed_freq) 
+			new_freq = hispeed_freq;
+		else
+		{
+			new_freq = choose_freq(pcpu, loadadjfreq);
 
-	if (cpu_load >= go_hispeed_load) {
-		if (pcpu->target_freq < boosted_freq)
-			new_freq = boosted_freq;
-		else {
-			new_freq = calc_freq(pcpu, cpu_load);
-
-			if (new_freq < boosted_freq)
-				new_freq = boosted_freq;
+			if (new_freq < hispeed_freq)
+				new_freq = hispeed_freq;
 		}
-	} else if (cpu_load <= DOWN_LOW_LOAD_THRESHOLD) {
-			new_freq = pcpu->policy->cpuinfo.min_freq;
-	} else {
-		new_freq = calc_freq(pcpu, cpu_load);
 
-		if (new_freq > boosted_freq &&
-				pcpu->target_freq < boosted_freq)
-			new_freq = boosted_freq;
+	}
+	else 
+	{
+		new_freq = choose_freq(pcpu, loadadjfreq);
 
 		if (sync_freq && new_freq < sync_freq) {
 
@@ -398,7 +393,7 @@ static void cpufreq_interactive_timer(unsigned long data)
 			new_freq = input_boost_freq;
 	}
 
-	if (pcpu->target_freq >= boosted_freq &&
+	if (pcpu->target_freq >= hispeed_freq &&
 	    new_freq > pcpu->target_freq &&
 	    now - pcpu->hispeed_validate_time <
 	    freq_to_above_hispeed_delay(pcpu->target_freq)) {
@@ -442,12 +437,12 @@ static void cpufreq_interactive_timer(unsigned long data)
 	/*
 	 * Update the timestamp for checking whether speed has been held at
 	 * or above the selected frequency for a minimum of min_sample_time,
-	 * if not boosted to boosted_freq.  If boosted to boosted_freq then we
+	 * if not boosted to hispeed_freq.  If boosted to hispeed_freq then we
 	 * allow the speed to drop as soon as the boostpulse duration expires
 	 * (or the indefinite boost is turned off).
 	 */
 
-	if (!boosted || new_freq > boosted_freq) {
+	if (!boosted || new_freq > hispeed_freq) {
 		pcpu->floor_freq = new_freq;
 		pcpu->floor_validate_time = now;
 	}
