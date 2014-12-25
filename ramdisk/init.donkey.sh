@@ -45,6 +45,22 @@ if [ -e /sys/kernel/power_suspend/power_suspend_mode ]; then
 	echo "Powersuspend enabled" | tee /dev/kmsg
 else
 	echo "Failed to set powersuspend" | tee /dev/kmsg
+	
+
+# Set lowmemorykiller tunables - thanks to Attack11
+
+if [ -e /sys/module/lowmemorykiller/parameters/adj ];
+then
+   echo "0,58,117,176,529,1000" > /sys/module/lowmemorykiller/parameters/adj
+fi;
+
+if [ -e /sys/module/lowmemorykiller/parameters/minfree ];
+then
+   echo "12288,15360,18432,21504,24576,30720" > /sys/module/lowmemorykiller/parameters/minfree
+fi;
+
+
+
 
 # Enable init.d with permissions;
 if /sbin/bbx [ ! -e /system/etc/init.d ]; then
