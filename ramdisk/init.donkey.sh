@@ -8,19 +8,19 @@
 #
 
 # Setting DEFAULTS
-echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-echo "interactive" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
-echo "interactive" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
-echo "interactive" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
+echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo "ondemand" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
+echo "ondemand" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
+echo "ondemand" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
 echo "192000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 
 echo "192000" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
 echo "192000" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
 echo "192000" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
-echo "58" > /sys/kernel/hotplug_control/all_cpus_threshold
-echo "10" > /sys/kernel/hotplug_control/hotplug_sampling
-echo "78" > /sys/kernel/hotplug_control/single_cpu_threshold
+echo "40" > /sys/kernel/hotplug_control/all_cpus_threshold
+echo "8" > /sys/kernel/hotplug_control/hotplug_sampling
+echo "45" > /sys/kernel/hotplug_control/single_cpu_threshold
 echo "1" > /sys/kernel/hotplug_control/low_latency
-echo "1094400" > /sys/kernel/hotplug_control/up_frequency
+echo "1190400" > /sys/kernel/hotplug_control/up_frequency
 echo "Y" > /sys/module/msm_thermal_v2/parameters/enabled
 echo "65" > /sys/module/msm_thermal_v2/parameters/core_limit_temp_degC
 echo "70" > /sys/module/msm_thermal_v2/parameters/limit_temp_degC
