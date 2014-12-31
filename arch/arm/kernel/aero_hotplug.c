@@ -31,8 +31,8 @@
 #endif
 
 
-#define DEFAULT_FIRST_LEVEL	50
-#define DEFAULT_SECOND_LEVEL	25
+#define DEFAULT_FIRST_LEVEL	55
+#define DEFAULT_SECOND_LEVEL	35
 #define HIGH_LOAD_COUNTER	15
 #define SAMPLING_RATE		6
 #define DEFAULT_MIN_ONLINE	0
@@ -111,7 +111,7 @@ static inline int get_cpu_load(unsigned int cpu)
 	if (unlikely(!wall_time || wall_time < idle_time))
 		return 0;
 
-	cur_load = 90 * (wall_time - idle_time) / wall_time;
+	cur_load = 100 * (wall_time - idle_time) / wall_time;
 
 	return (cur_load * policy.cur) / policy.max;
 }
@@ -174,7 +174,7 @@ static inline void calculate_load_for_cpu(int cpu)
 
 	/* CPU is stressed */
 	if (hot_data->low_latency) {
-		if (cpu_load >= 110 && avg_load >= 110) {
+		if (cpu_load >= 100 && avg_load >= 100) {
 			if (hot_data->debug)
 				pr_info("[Hot-Plug]: CPU%u is stressed, "
 					"considering boosting CPU%u \n", 
@@ -207,7 +207,7 @@ static inline void put_cpu_down(int cpu)
 {
 	int target_cpu = cpu; 
 	int cpu_load = 0;
-	int lowest_load = 50;
+	int lowest_load = 100;
 	int j;
 
 	/* Prevent fast on-/offlining */ 
@@ -223,7 +223,7 @@ static inline void put_cpu_down(int cpu)
 	/*
 	 * Decide which core should be offlined
 	 */
-	for (j = 2; j < 3; j++) {
+	for (j = 2; j < 4; j++) {
 
 		if (!cpu_online(j))
 			continue;
@@ -260,12 +260,12 @@ static void __ref decide_hotplug_func(struct work_struct *work)
 	if (unlikely(hot_data->online_cpus == 1))
 		queue_delayed_work(system_power_efficient_wq, &decide_hotplug, msecs_to_jiffies(hot_data->hotplug_sampling * HZ));
 
-	for (i = 0, j = 2; i < 3; i++, j++) {
+	for (i = 0, j = 2; i < 2; i++, j++) {
 
 		/* Do load calculation for each cpu counter */
 		calculate_load_for_cpu(i);
 
-		if (hot_data->counter[i] >= 15) {
+		if (hot_data->counter[i] >= 10) {
 			set_cpu_up(j);
 		} else {
 			if (hot_data->counter[i] >= 0) {
